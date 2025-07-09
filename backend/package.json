@@ -18,7 +18,11 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:run": "typeorm-ts-node-commonjs migration:run --dataSource database/data-source.ts",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate database/migrations/migration --dataSource database/data-source.ts",
+    "seed": "ts-node database/seeds/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -26,6 +30,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.0",
     "@nestjs/typeorm": "^11.0.0",
+    "class-validator": "^0.14.2",
     "dotenv": "^17.2.0",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",

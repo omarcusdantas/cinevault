@@ -5,10 +5,7 @@ import { BaseEntity } from "../../shared/entities/base.entity";
 @Entity()
 export class Rating extends BaseEntity {
   @Column("int")
-  value: number;
-
-  @Column({ nullable: true })
-  comment?: string;
+  score: number;
 
   @ManyToOne(() => Movie, (movie) => movie.ratings, { onDelete: "CASCADE" })
   movie: Movie;
