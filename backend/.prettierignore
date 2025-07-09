@@ -1,0 +1,12 @@
+dist
+node_modules
+coverage
+out/
+build
+.DS_Store
+*.pem
+*.tsbuildinfo
+.env
+.env.exemple
+pnpm-lock.yaml
+.vercel
