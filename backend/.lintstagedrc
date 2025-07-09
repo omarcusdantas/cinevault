@@ -1,4 +1,4 @@
 {
-  "*.{js,jsx,ts,tsx}": ["pnpm lint --file", "prettier --write"],
+  "*.{js,jsx,ts,tsx}": ["pnpx lint --file --fix", "prettier --write"],
   "*.{json,md,css,scss,html}": ["prettier --write"]
 }
