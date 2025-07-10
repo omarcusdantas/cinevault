@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from "@nestjs/common";
+import { Injectable, BadRequestException, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Movie } from "../entities/movie.entity";
 import { Actor } from "../entities/actor.entity";
@@ -14,36 +14,64 @@ export class MoviesService {
   ) {}
 
   async create(dto: CreateMovieDto) {
-  let actors: Actor[] = [];
-
-  if (dto.actorIds.length > 0) {
-    actors = await this.actorRepository.find({
-      where: { id: In(dto.actorIds) },
+    const actors = await this.verifyActors(dto.actorIds);
+    const movie = this.movieRepository.create({ ...dto, actors });
+    return this.movieRepository.save(movie);
+  }
+  async findAll(page = 1, limit = 10) {
+    const [items, total] = await this.movieRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
     });
+    return {
+      data: items,
+      total,
+      page,
+      limit,
+    };
+  }
 
-    if (actors.length !== dto.actorIds.length) {
+  async findOne(id: number) {
+    const movie = await this.movieRepository.findOne({
+      where: { id },
+      relations: ["actors", "ratings"],
+      withDeleted: false,
+    });
+    if (!movie) throw new NotFoundException("Movie not found");
+    return movie;
+  }
+
+  async update(id: number, dto: UpdateMovieDto) {
+    const movie = await this.movieRepository.findOne({ where: { id } });
+    if (!movie) throw new NotFoundException("Movie not found");
+
+    const actors = await this.verifyActors(dto.actorIds);
+
+    return this.movieRepository.save({
+      ...movie,
+      ...dto,
+      actors,
+    });
+  }
+
+  async softDelete(id: number) {
+    const movie = await this.movieRepository.findOne({ where: { id } });
+    if (!movie) throw new NotFoundException("Movie not found");
+
+    await this.movieRepository.softDelete(id);
+    return { message: "Movie soft-deleted" };
+  }
+
+  async verifyActors(actorIds: number[]) {
+    if (actorIds.length === 0) return;
+
+    const actors = await this.actorRepository.find({ where: { id: In(actorIds) } });
+    if (actors.length !== actorIds.length) {
       const foundIds = actors.map((a) => a.id);
-      const missingIds = dto.actorIds.filter((id) => !foundIds.includes(id));
-      throw new BadRequestException(`Invalid actor IDs: ${missingIds.join(', ')}`);
+      const missingIds = actorIds.filter((id) => !foundIds.includes(id));
+      throw new BadRequestException(`Invalid actor IDs: ${missingIds.join(", ")}`);
     }
-  }
 
-  const movie = this.movieRepository.create({ ...dto, actors });
-  return this.movieRepository.save(movie);
-}
-  findAll() {
-    return `This action returns all movies`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} movie`;
-  }
-
-  update(id: number, updateMovieDto: UpdateMovieDto) {
-    return `This action updates a #${id} movie`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} movie`;
+    return actors;
   }
 }
