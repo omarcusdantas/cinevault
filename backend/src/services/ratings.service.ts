@@ -44,7 +44,7 @@ export class RatingsService {
     const rating = await this.ratingRepository.findOne({ where: { id } });
     if (!rating) throw new NotFoundException("Rating not found");
 
-    await this.ratingRepository.delete(id);
+    await this.ratingRepository.softDelete(id);
     return { message: "Rating deleted" };
   }
 }

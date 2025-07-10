@@ -2,7 +2,7 @@ import { Injectable, BadRequestException, NotFoundException } from "@nestjs/comm
 import { InjectRepository } from "@nestjs/typeorm";
 import { Movie } from "../entities/movie.entity";
 import { Actor } from "../entities/actor.entity";
-import { Repository, In } from "typeorm";
+import { Repository, In, ILike } from "typeorm";
 import { CreateMovieDto } from "../dto/movie/create-movie.dto";
 import { UpdateMovieDto } from "../dto/movie/update-movie.dto";
 
@@ -19,17 +19,19 @@ export class MoviesService {
     return this.movieRepository.save(movie);
   }
 
-  async findAll(page = 1, limit = 10) {
-    const [items, total] = await this.movieRepository.findAndCount({
+  findAll(page: number, limit: number, title?: string) {
+    if (title) {
+      return this.movieRepository.find({
+        where: { title: ILike(`%${title}%`) },
+        skip: (page - 1) * limit,
+        take: limit,
+      });
+    }
+
+    return this.movieRepository.find({
       skip: (page - 1) * limit,
       take: limit,
     });
-    return {
-      data: items,
-      total,
-      page,
-      limit,
-    };
   }
 
   async findOne(id: number) {

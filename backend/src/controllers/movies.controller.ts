@@ -43,13 +43,13 @@ export class MoviesController {
   }
 
   @Get()
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: "Retrieve a paginated list of movies" })
-  @ApiQuery({ name: "page", required: false, type: Number, example: 1 })
-  @ApiQuery({ name: "limit", required: false, type: Number, example: 10 })
+  @ApiOperation({ summary: "Get paginated list of movies (with optional title search)" })
+  @ApiQuery({ name: "page", required: false, type: Number })
+  @ApiQuery({ name: "limit", required: false, type: Number })
+  @ApiQuery({ name: "title", required: false, type: String })
   @ApiOkResponse({ description: "List of movies", type: [Movie] })
-  getAll(@Query("page") page = 1, @Query("limit") limit = 10) {
-    return this.moviesService.findAll(page, limit);
+  findAll(@Query("page") page = 1, @Query("limit") limit = 10, @Query("title") title?: string) {
+    return this.moviesService.findAll(page, limit, title);
   }
 
   @Get(":id")

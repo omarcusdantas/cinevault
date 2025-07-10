@@ -16,7 +16,7 @@ import { Rating } from "../entities/rating.entity";
 @ApiTags("Ratings")
 @Controller("v1/ratings")
 export class RatingsController {
-  constructor(private readonly service: RatingsService) {}
+  constructor(private readonly ratingsService: RatingsService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -24,7 +24,7 @@ export class RatingsController {
   @ApiCreatedResponse({ description: "Rating created", type: Rating })
   @ApiBadRequestResponse({ description: "Invalid input" })
   create(@Body() dto: CreateRatingDto) {
-    return this.service.create(dto);
+    return this.ratingsService.create(dto);
   }
 
   @Get(":id")
@@ -32,7 +32,7 @@ export class RatingsController {
   @ApiOkResponse({ description: "Rating found", type: Rating })
   @ApiNotFoundResponse({ description: "Rating not found" })
   findOne(@Param("id", ParseIntPipe) id: number) {
-    return this.service.findOne(id);
+    return this.ratingsService.findOne(id);
   }
 
   @Put(":id")
@@ -40,7 +40,7 @@ export class RatingsController {
   @ApiOkResponse({ description: "Rating updated", type: Rating })
   @ApiNotFoundResponse({ description: "Rating not found" })
   update(@Param("id", ParseIntPipe) id: number, @Body() dto: UpdateRatingDto) {
-    return this.service.update(id, dto);
+    return this.ratingsService.update(id, dto);
   }
 
   @Delete(":id")
@@ -49,6 +49,6 @@ export class RatingsController {
   @ApiNoContentResponse({ description: "Rating deleted" })
   @ApiNotFoundResponse({ description: "Rating not found" })
   delete(@Param("id", ParseIntPipe) id: number) {
-    return this.service.delete(id);
+    return this.ratingsService.delete(id);
   }
 }
