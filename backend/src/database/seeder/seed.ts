@@ -33,21 +33,61 @@ async function seed() {
   const actorEntities = await actorRepo.save(actors);
 
   const movies = [
-    { title: "Inception", actors: [actorEntities[0], actorEntities[9]] },
-    { title: "Lost in Translation", actors: [actorEntities[1], actorEntities[13]] },
-    { title: "Shawshank Redemption", actors: [actorEntities[2]] },
-    { title: "Hunger Games", actors: [actorEntities[3], actorEntities[10]] },
-    { title: "Forrest Gump", actors: [actorEntities[4]] },
-    { title: "Black Swan", actors: [actorEntities[5]] },
-    { title: "Iron Man", actors: [actorEntities[6], actorEntities[8]] },
-    { title: "La La Land", actors: [actorEntities[7], actorEntities[13]] },
-    { title: "Pulp Fiction", actors: [actorEntities[8], actorEntities[11]] },
-    { title: "The Dark Knight", actors: [actorEntities[9], actorEntities[10]] },
-    { title: "Les Misérables", actors: [actorEntities[10], actorEntities[3]] },
-    { title: "Fight Club", actors: [actorEntities[11], actorEntities[2]] },
-    { title: "Wonder Woman", actors: [actorEntities[12]] },
-    { title: "Blade Runner 2049", actors: [actorEntities[13], actorEntities[7]] },
-    { title: "Avatar", actors: [actorEntities[14]] },
+    {
+      title: "Inception",
+      description: "A thief enters dreams to steal secrets.",
+      actors: [actorEntities[0], actorEntities[9]],
+    },
+    {
+      title: "Lost in Translation",
+      description: "Two strangers connect in Tokyo.",
+      actors: [actorEntities[1], actorEntities[13]],
+    },
+    { title: "Shawshank Redemption", description: "A man finds hope in prison.", actors: [actorEntities[2]] },
+    {
+      title: "Hunger Games",
+      description: "Teens fight to survive a brutal game.",
+      actors: [actorEntities[3], actorEntities[10]],
+    },
+    { title: "Forrest Gump", description: "A simple man lives an extraordinary life.", actors: [actorEntities[4]] },
+    { title: "Black Swan", description: "A ballerina loses herself in a role.", actors: [actorEntities[5]] },
+    {
+      title: "Iron Man",
+      description: "A genius builds a suit to fight evil.",
+      actors: [actorEntities[6], actorEntities[8]],
+    },
+    {
+      title: "La La Land",
+      description: "Two artists fall in and out of love.",
+      actors: [actorEntities[7], actorEntities[13]],
+    },
+    {
+      title: "Pulp Fiction",
+      description: "Interwoven stories of crime and redemption.",
+      actors: [actorEntities[8], actorEntities[11]],
+    },
+    {
+      title: "The Dark Knight",
+      description: "Batman faces his greatest enemy yet.",
+      actors: [actorEntities[9], actorEntities[10]],
+    },
+    {
+      title: "Les Misérables",
+      description: "A fugitive seeks redemption in revolution.",
+      actors: [actorEntities[10], actorEntities[3]],
+    },
+    {
+      title: "Fight Club",
+      description: "An insomniac finds chaos in rebellion.",
+      actors: [actorEntities[11], actorEntities[2]],
+    },
+    { title: "Wonder Woman", description: "An Amazon warrior enters the human world.", actors: [actorEntities[12]] },
+    {
+      title: "Blade Runner 2049",
+      description: "A cop uncovers secrets about AI and identity.",
+      actors: [actorEntities[13], actorEntities[7]],
+    },
+    { title: "Avatar", description: "A soldier joins an alien world’s fight.", actors: [actorEntities[14]] },
   ];
 
   const movieEntities = await movieRepo.save(movies);
