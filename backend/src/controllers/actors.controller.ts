@@ -10,6 +10,8 @@ import {
   HttpCode,
   HttpStatus,
   ParseIntPipe,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -21,10 +23,12 @@ import {
   ApiCreatedResponse,
   ApiBadRequestResponse,
 } from "@nestjs/swagger";
+import { plainToInstance } from "class-transformer";
 import { ActorsService } from "../services/actors.service";
-import { Actor } from "../entities/actor.entity";
-import { CreateActorDto } from "src/dto/actor/create-actor.dto";
+import { CreateActorDto } from "../dto/actor/create-actor.dto";
 import { UpdateActorDto } from "../dto/actor/update-actor.dto";
+import { ResponseActorDto } from "../dto/actor/response-actor.dto";
+import { ResponseActorWithRelationsDto } from "../dto/actor/response-actor-relations.dto";
 
 @ApiTags("Actors")
 @Controller("v1/actors")
@@ -33,39 +37,50 @@ export class ActorsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: "Create a new actor" })
-  @ApiCreatedResponse({ description: "Actor created" })
+  @ApiCreatedResponse({ description: "Actor created", type: ResponseActorDto })
   @ApiBadRequestResponse({
     description: "Invalid input",
   })
   create(@Body() dto: CreateActorDto) {
-    return this.actorsService.create(dto);
+    const actor = this.actorsService.create(dto);
+    return plainToInstance(ResponseActorDto, actor, { excludeExtraneousValues: true });
   }
 
   @Get()
+  @HttpCode(HttpStatus.OK)
+  @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: "Get paginated list of actors (with optional name search)" })
   @ApiQuery({ name: "page", required: false, type: Number })
   @ApiQuery({ name: "limit", required: false, type: Number })
   @ApiQuery({ name: "name", required: false, type: String })
-  @ApiOkResponse({ description: "List of actors", type: [Actor] })
+  @ApiOkResponse({ description: "List of actors", type: [ResponseActorDto] })
   findAll(@Query("page") page = 1, @Query("limit") limit = 10, @Query("name") name?: string) {
-    return this.actorsService.findAll(page, limit, name);
+    const actors = this.actorsService.findAll(page, limit, name);
+    return plainToInstance(ResponseActorDto, actors, { excludeExtraneousValues: true });
   }
 
   @Get(":id")
+  @HttpCode(HttpStatus.OK)
+  @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: "Get an actor by ID, including movies" })
-  @ApiOkResponse({ description: "Actor found", type: Actor })
+  @ApiOkResponse({ description: "Actor found", type: ResponseActorWithRelationsDto })
   @ApiNotFoundResponse({ description: "Actor not found" })
   findById(@Param("id", ParseIntPipe) id: number) {
-    return this.actorsService.findById(id);
+    const actor = this.actorsService.findById(id);
+    return plainToInstance(ResponseActorWithRelationsDto, actor, { excludeExtraneousValues: true });
   }
 
   @Put(":id")
+  @HttpCode(HttpStatus.OK)
+  @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: "Update actor" })
-  @ApiOkResponse({ description: "Actor updated", type: Actor })
+  @ApiOkResponse({ description: "Actor updated", type: ResponseActorDto })
   @ApiNotFoundResponse({ description: "Actor not found" })
   update(@Param("id", ParseIntPipe) id: number, @Body() dto: UpdateActorDto) {
-    return this.actorsService.update(id, dto);
+    const actor = this.actorsService.update(id, dto);
+    return plainToInstance(ResponseActorDto, actor, { excludeExtraneousValues: true });
   }
 
   @Delete(":id")
