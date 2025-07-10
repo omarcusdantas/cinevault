@@ -1,6 +1,6 @@
-import { Movie } from "../../src/movies/entities/movie.entity";
-import { Actor } from "../../src/actors/entities/actor.entity";
-import { Rating } from "../../src/ratings/entities/rating.entity";
+import { Movie } from "../../entities/movie.entity";
+import { Actor } from "../../entities/actor.entity";
+import { Rating } from "../../entities/rating.entity";
 
 import { dataSource } from "../data-source";
 

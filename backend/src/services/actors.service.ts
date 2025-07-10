@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { CreateActorDto } from "./dto/create-actor.dto";
-import { UpdateActorDto } from "./dto/update-actor.dto";
+import { CreateActorDto } from "../dto/actor/create-actor.dto";
+import { UpdateActorDto } from "../dto/actor/update-actor.dto";
 
 @Injectable()
 export class ActorsService {

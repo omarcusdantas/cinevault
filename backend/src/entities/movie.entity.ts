@@ -1,7 +1,7 @@
 import { Entity, Column, ManyToMany, OneToMany, JoinTable } from "typeorm";
-import { Actor } from "../../actors/entities/actor.entity";
-import { Rating } from "../../ratings/entities/rating.entity";
-import { BaseEntity } from "../../shared/entities/base.entity";
+import { Actor } from "./actor.entity";
+import { Rating } from "./rating.entity";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
 export class Movie extends BaseEntity {

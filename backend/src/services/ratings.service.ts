@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { CreateRatingDto } from "./dto/create-rating.dto";
-import { UpdateRatingDto } from "./dto/update-rating.dto";
+import { CreateRatingDto } from "../dto/rating/create-rating.dto";
+import { UpdateRatingDto } from "../dto/rating/update-rating.dto";
 
 @Injectable()
 export class RatingsService {

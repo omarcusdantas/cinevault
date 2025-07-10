@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToMany } from "typeorm";
-import { Movie } from "../../movies/entities/movie.entity";
-import { BaseEntity } from "../../shared/entities/base.entity";
+import { Movie } from "./movie.entity";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
 export class Actor extends BaseEntity {
