@@ -6,6 +6,7 @@ import {
   ApiQuery,
   ApiOkResponse,
   ApiNotFoundResponse,
+  ApiNoContentResponse,
 } from "@nestjs/swagger";
 import {
   Controller,
@@ -42,6 +43,7 @@ export class MoviesController {
   }
 
   @Get()
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: "Retrieve a paginated list of movies" })
   @ApiQuery({ name: "page", required: false, type: Number, example: 1 })
   @ApiQuery({ name: "limit", required: false, type: Number, example: 10 })
@@ -51,6 +53,7 @@ export class MoviesController {
   }
 
   @Get(":id")
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: "Get a movie by ID, including actors and ratings" })
   @ApiOkResponse({ description: "Movie found", type: Movie })
   @ApiNotFoundResponse({ description: "Movie not found" })
@@ -59,6 +62,7 @@ export class MoviesController {
   }
 
   @Put(":id")
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: "Update an existing movie" })
   @ApiOkResponse({ description: "Movie updated", type: Movie })
   @ApiBadRequestResponse({ description: "Invalid input" })
@@ -70,7 +74,7 @@ export class MoviesController {
   @Delete(":id")
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: "Soft delete a movie" })
-  @ApiOkResponse({ description: "Movie deleted" })
+  @ApiNoContentResponse({ description: "Movie deleted" })
   @ApiNotFoundResponse({ description: "Movie not found" })
   delete(@Param("id", ParseIntPipe) id: number) {
     return this.moviesService.softDelete(id);

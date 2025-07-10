@@ -18,6 +18,7 @@ export class MoviesService {
     const movie = this.movieRepository.create({ ...dto, actors });
     return this.movieRepository.save(movie);
   }
+
   async findAll(page = 1, limit = 10) {
     const [items, total] = await this.movieRepository.findAndCount({
       skip: (page - 1) * limit,
