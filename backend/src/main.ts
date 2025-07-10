@@ -19,6 +19,11 @@ async function bootstrap() {
     .setTitle("Cinevault")
     .setDescription("A web application for managing a list of movies.")
     .setVersion("1.0")
+    .addSecurity("bearer", {
+      type: "http",
+      scheme: "bearer",
+      bearerFormat: "JWT or API Key",
+    })
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -1,4 +1,14 @@
 import {
+  ApiTags,
+  ApiOperation,
+  ApiOkResponse,
+  ApiCreatedResponse,
+  ApiBadRequestResponse,
+  ApiNotFoundResponse,
+  ApiNoContentResponse,
+  ApiBearerAuth,
+} from "@nestjs/swagger";
+import {
   Controller,
   Get,
   Post,
@@ -11,17 +21,10 @@ import {
   ParseIntPipe,
   UseInterceptors,
   ClassSerializerInterceptor,
+  UseGuards,
 } from "@nestjs/common";
-import {
-  ApiTags,
-  ApiOperation,
-  ApiOkResponse,
-  ApiCreatedResponse,
-  ApiBadRequestResponse,
-  ApiNotFoundResponse,
-  ApiNoContentResponse,
-} from "@nestjs/swagger";
 import { plainToInstance } from "class-transformer";
+import { JwtOrApiGuard } from "src/guards/jwt-or-api.guard";
 import { RatingsService } from "../services/ratings.service";
 import { CreateRatingDto } from "../dto/rating/create-rating.dto";
 import { UpdateRatingDto } from "../dto/rating/update-rating.dto";
@@ -36,6 +39,8 @@ export class RatingsController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtOrApiGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Create a new rating" })
   @ApiCreatedResponse({ description: "Rating created", type: ResponseRatingDto })
   @ApiBadRequestResponse({ description: "Invalid input" })
@@ -58,6 +63,8 @@ export class RatingsController {
   @Put(":id")
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtOrApiGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Update a rating" })
   @ApiOkResponse({ description: "Rating updated", type: ResponseRatingDto })
   @ApiNotFoundResponse({ description: "Rating not found" })
@@ -68,6 +75,8 @@ export class RatingsController {
 
   @Delete(":id")
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtOrApiGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Delete a rating" })
   @ApiNoContentResponse({ description: "Rating deleted" })
   @ApiNotFoundResponse({ description: "Rating not found" })

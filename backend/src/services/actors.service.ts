@@ -7,7 +7,7 @@ import { UpdateActorDto } from "../dto/actor/update-actor.dto";
 
 @Injectable()
 export class ActorsService {
-  constructor(@InjectRepository(Actor) readonly actorRepository: Repository<Actor>) {}
+  constructor(@InjectRepository(Actor) private readonly actorRepository: Repository<Actor>) {}
 
   async create(dto: CreateActorDto) {
     const actor = this.actorRepository.create(dto);

@@ -3,6 +3,7 @@ import { DataSource, DataSourceOptions } from "typeorm";
 import { Movie } from "../entities/movie.entity";
 import { Actor } from "../entities/actor.entity";
 import { Rating } from "../entities/rating.entity";
+import { User } from "../entities/user.entity";
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -12,10 +13,10 @@ export const dataSourceOptions: DataSourceOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   synchronize: false,
-  entities: [Movie, Actor, Rating],
+  entities: [Movie, Actor, Rating, User],
 };
 
 export const dataSource = new DataSource({
   ...dataSourceOptions,
-  migrations: ["database/migrations/**/*.ts"],
+  migrations: ["src/database/migrations/**/*.ts"],
 });

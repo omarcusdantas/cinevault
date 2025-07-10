@@ -12,6 +12,7 @@ import {
   ParseIntPipe,
   UseInterceptors,
   ClassSerializerInterceptor,
+  UseGuards,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -22,8 +23,10 @@ import {
   ApiNoContentResponse,
   ApiCreatedResponse,
   ApiBadRequestResponse,
+  ApiBearerAuth,
 } from "@nestjs/swagger";
 import { plainToInstance } from "class-transformer";
+import { JwtOrApiGuard } from "../guards/jwt-or-api.guard";
 import { ActorsService } from "../services/actors.service";
 import { CreateActorDto } from "../dto/actor/create-actor.dto";
 import { UpdateActorDto } from "../dto/actor/update-actor.dto";
@@ -38,6 +41,8 @@ export class ActorsController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtOrApiGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Create a new actor" })
   @ApiCreatedResponse({ description: "Actor created", type: ResponseActorDto })
   @ApiBadRequestResponse({
@@ -75,6 +80,8 @@ export class ActorsController {
   @Put(":id")
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtOrApiGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Update actor" })
   @ApiOkResponse({ description: "Actor updated", type: ResponseActorDto })
   @ApiNotFoundResponse({ description: "Actor not found" })
@@ -85,6 +92,8 @@ export class ActorsController {
 
   @Delete(":id")
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtOrApiGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Delete an actor" })
   @ApiNoContentResponse({ description: "Actor deleted" })
   @ApiNotFoundResponse({ description: "Actor not found" })

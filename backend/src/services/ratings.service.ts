@@ -9,8 +9,8 @@ import { UpdateRatingDto } from "../dto/rating/update-rating.dto";
 @Injectable()
 export class RatingsService {
   constructor(
-    @InjectRepository(Rating) readonly ratingRepository: Repository<Rating>,
-    @InjectRepository(Movie) readonly movieRepository: Repository<Movie>
+    @InjectRepository(Rating) private readonly ratingRepository: Repository<Rating>,
+    @InjectRepository(Movie) private readonly movieRepository: Repository<Movie>
   ) {}
 
   async findOne(id: number) {

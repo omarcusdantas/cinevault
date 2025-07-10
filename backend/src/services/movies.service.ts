@@ -9,8 +9,8 @@ import { UpdateMovieDto } from "../dto/movie/update-movie.dto";
 @Injectable()
 export class MoviesService {
   constructor(
-    @InjectRepository(Movie) readonly movieRepository: Repository<Movie>,
-    @InjectRepository(Actor) readonly actorRepository: Repository<Actor>
+    @InjectRepository(Movie) private readonly movieRepository: Repository<Movie>,
+    @InjectRepository(Actor) private readonly actorRepository: Repository<Actor>
   ) {}
 
   async create(dto: CreateMovieDto) {

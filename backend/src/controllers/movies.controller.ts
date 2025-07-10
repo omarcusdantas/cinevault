@@ -7,6 +7,7 @@ import {
   ApiOkResponse,
   ApiNotFoundResponse,
   ApiNoContentResponse,
+  ApiBearerAuth,
 } from "@nestjs/swagger";
 import {
   Controller,
@@ -22,8 +23,10 @@ import {
   Query,
   UseInterceptors,
   ClassSerializerInterceptor,
+  UseGuards,
 } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
+import { JwtOrApiGuard } from "../guards/jwt-or-api.guard";
 import { MoviesService } from "../services/movies.service";
 import { CreateMovieDto } from "../dto/movie/create-movie.dto";
 import { UpdateMovieDto } from "../dto/movie/update-movie.dto";
@@ -38,6 +41,8 @@ export class MoviesController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtOrApiGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Create a new movie" })
   @ApiCreatedResponse({ description: "Movie created", type: ResponseMovieDto })
   @ApiBadRequestResponse({
@@ -75,6 +80,8 @@ export class MoviesController {
   @Put(":id")
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtOrApiGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Update an existing movie" })
   @ApiOkResponse({ description: "Movie updated", type: ResponseMovieDto })
   @ApiBadRequestResponse({ description: "Invalid input" })
@@ -86,6 +93,8 @@ export class MoviesController {
 
   @Delete(":id")
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtOrApiGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Soft delete a movie" })
   @ApiNoContentResponse({ description: "Movie deleted" })
   @ApiNotFoundResponse({ description: "Movie not found" })
