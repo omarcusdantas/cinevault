@@ -34,8 +34,10 @@ export class RatingsService {
     const rating = await this.ratingRepository.findOne({ where: { id } });
     if (!rating) throw new NotFoundException("Rating not found");
 
-    Object.assign(rating, dto);
-    return this.ratingRepository.save(rating);
+    return this.ratingRepository.save({
+      ...rating,
+      ...dto,
+    });
   }
 
   async delete(id: number) {

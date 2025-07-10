@@ -1,26 +1,52 @@
-import { Injectable } from "@nestjs/common";
-import { CreateActorDto } from "../dto/actor/create-actor.dto";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Actor } from "../entities/actor.entity";
+import { Repository, ILike } from "typeorm";
 import { UpdateActorDto } from "../dto/actor/update-actor.dto";
 
 @Injectable()
 export class ActorsService {
-  create(createActorDto: CreateActorDto) {
-    return "This action adds a new actor";
+  constructor(@InjectRepository(Actor) readonly actorRepository: Repository<Actor>) {}
+
+  async findAll(page = 1, limit = 10) {
+    const [items, total] = await this.actorRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    return { data: items, total, page, limit };
   }
 
-  findAll() {
-    return `This action returns all actors`;
+  async findById(id: number) {
+    const actor = await this.actorRepository.findOne({
+      where: { id },
+      relations: ["movies"],
+    });
+    if (!actor) throw new NotFoundException("Actor not found");
+    return actor;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} actor`;
+  async searchByName(name: string) {
+    return this.actorRepository.find({
+      where: { name: ILike(`%${name}%`) },
+      take: 10,
+    });
   }
 
-  update(id: number, updateActorDto: UpdateActorDto) {
-    return `This action updates a #${id} actor`;
+  async update(id: number, dto: UpdateActorDto) {
+    const actor = await this.actorRepository.findOne({ where: { id } });
+    if (!actor) throw new NotFoundException("Actor not found");
+
+    return this.actorRepository.save({
+      ...actor,
+      ...dto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} actor`;
+  async delete(id: number) {
+    const actor = await this.actorRepository.findOne({ where: { id } });
+    if (!actor) throw new NotFoundException("Actor not found");
+
+    await this.actorRepository.delete(id);
+    return { message: "Actor deleted" };
   }
 }
