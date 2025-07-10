@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { dataSourceOptions } from "database/data-source";
+import { dataSourceOptions } from "./database/data-source";
 import { MoviesModule, ActorsModule, RatingsModule } from "./modules";
 
 @Module({
