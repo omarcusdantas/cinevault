@@ -30,8 +30,8 @@ import { JwtOrApiGuard } from "../guards/jwt-or-api.guard";
 import { MoviesService } from "../services/movies.service";
 import { CreateMovieDto } from "../dto/movie/create-movie.dto";
 import { UpdateMovieDto } from "../dto/movie/update-movie.dto";
-import { ResponseMovieDto } from "src/dto/movie/response-movie.dto";
-import { ResponseMovieWithRelationsDto } from "src/dto/movie/response-movie-relations.dto";
+import { ResponseMovieDto } from "../dto/movie/response-movie.dto";
+import { ResponseMovieWithRelationsDto } from "../dto/movie/response-movie-relations.dto";
 
 @ApiTags("Movies")
 @Controller("v1/movies")

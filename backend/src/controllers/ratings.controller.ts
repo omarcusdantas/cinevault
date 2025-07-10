@@ -24,7 +24,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
-import { JwtOrApiGuard } from "src/guards/jwt-or-api.guard";
+import { JwtOrApiGuard } from "../guards/jwt-or-api.guard";
 import { RatingsService } from "../services/ratings.service";
 import { CreateRatingDto } from "../dto/rating/create-rating.dto";
 import { UpdateRatingDto } from "../dto/rating/update-rating.dto";
