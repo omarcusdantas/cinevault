@@ -20,7 +20,7 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 text-center">
-      <h1 className="mb-8 text-3xl font-bold text-gray-900">Movies</h1>
+      <h2 className="mb-8 text-3xl font-bold text-gray-900">Movies</h2>
 
       <SearchForm placeholder="Search movies..." />
 
