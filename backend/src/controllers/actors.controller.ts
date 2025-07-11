@@ -13,6 +13,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   UseGuards,
+  Inject,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -27,14 +28,18 @@ import {
 } from "@nestjs/swagger";
 import { plainToInstance } from "class-transformer";
 import { JwtOrApiGuard } from "../guards/jwt-or-api.guard";
-import { ActorsService } from "../services/actors.service";
+import { IActorsService } from "../services/interfaces/actors.service.interface";
+import { ACTORS_SERVICE } from "../utils/constants";
 import { CreateActorDto, UpdateActorDto, ResponseActorDto, ResponseActorWithRelationsDto } from "../dto/actor";
-import { ResponsePaginatedDto, PaginationQueryDto } from "../dto/pagination";
+import { ResponsePaginatedDto } from "../dto/pagination/reponse-paginated.dto";
 
 @ApiTags("Actors")
 @Controller("v1/actors")
 export class ActorsController {
-  constructor(private readonly actorsService: ActorsService) {}
+  constructor(
+    @Inject(ACTORS_SERVICE)
+    private readonly actorsService: IActorsService
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -59,8 +64,8 @@ export class ActorsController {
   @ApiQuery({ name: "limit", required: false, type: Number })
   @ApiQuery({ name: "name", required: false, type: String })
   @ApiOkResponse({ description: "List of actors", type: ResponsePaginatedDto<ResponseActorDto> })
-  async findAll(@Query() pagination: PaginationQueryDto, @Query("name") name?: string) {
-    const actors = await this.actorsService.findAll(pagination.page ?? 1, pagination.limit ?? 10, name);
+  async findAll(@Query("page") page = 1, @Query("limit") limit = 10, @Query("name") name?: string) {
+    const actors = await this.actorsService.findAll(page, limit, name);
     const formatedActors = plainToInstance(ResponseActorDto, actors.data, { excludeExtraneousValues: true });
 
     return {

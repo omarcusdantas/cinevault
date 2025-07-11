@@ -24,17 +24,22 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   UseGuards,
+  Inject,
 } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
 import { JwtOrApiGuard } from "../guards/jwt-or-api.guard";
-import { MoviesService } from "../services/movies.service";
+import { IMoviesService } from "../services/interfaces/movies.service.interface";
+import { MOVIES_SERVICE } from "../utils/constants";
 import { CreateMovieDto, UpdateMovieDto, ResponseMovieDto, ResponseMovieWithRelationsDto } from "../dto/movie";
-import { ResponsePaginatedDto, PaginationQueryDto } from "../dto/pagination";
+import { ResponsePaginatedDto } from "../dto/pagination/reponse-paginated.dto";
 
 @ApiTags("Movies")
 @Controller("v1/movies")
 export class MoviesController {
-  constructor(private readonly moviesService: MoviesService) {}
+  constructor(
+    @Inject(MOVIES_SERVICE)
+    private readonly moviesService: IMoviesService
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -59,8 +64,8 @@ export class MoviesController {
   @ApiQuery({ name: "limit", required: false, type: Number })
   @ApiQuery({ name: "title", required: false, type: String })
   @ApiOkResponse({ description: "List of movies", type: ResponsePaginatedDto<ResponseMovieDto> })
-  async findAll(@Query() pagination: PaginationQueryDto, @Query("title") title?: string) {
-    const movies = await this.moviesService.findAll(pagination.page ?? 1, pagination.limit ?? 10, title);
+  async findAll(@Query("page") page = 1, @Query("limit") limit = 10, @Query("title") title?: string) {
+    const movies = await this.moviesService.findAll(page, limit, title);
     const formatedMovies = plainToInstance(ResponseMovieDto, movies.data, { excludeExtraneousValues: true });
 
     return {
@@ -78,7 +83,7 @@ export class MoviesController {
   @ApiOkResponse({ description: "Movie found", type: ResponseMovieWithRelationsDto })
   @ApiNotFoundResponse({ description: "Movie not found" })
   getById(@Param("id", ParseIntPipe) id: number) {
-    const movie = this.moviesService.findOne(id);
+    const movie = this.moviesService.findById(id);
     return plainToInstance(ResponseMovieWithRelationsDto, movie, { excludeExtraneousValues: true });
   }
 
@@ -104,6 +109,6 @@ export class MoviesController {
   @ApiNoContentResponse({ description: "Movie deleted" })
   @ApiNotFoundResponse({ description: "Movie not found" })
   delete(@Param("id", ParseIntPipe) id: number) {
-    return this.moviesService.softDelete(id);
+    return this.moviesService.delete(id);
   }
 }

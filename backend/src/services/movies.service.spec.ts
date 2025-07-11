@@ -120,7 +120,7 @@ describe("MoviesService", () => {
     it("should return a movie with relations", async () => {
       movieRepo.findOne.mockResolvedValue(mockMovie);
 
-      const result = await service.findOne(1);
+      const result = await service.findById(1);
 
       expect(result).toEqual(mockMovie);
     });
@@ -128,7 +128,7 @@ describe("MoviesService", () => {
     it("should throw if movie not found", async () => {
       movieRepo.findOne.mockResolvedValue(null);
 
-      await expect(service.findOne(1)).rejects.toThrow(NotFoundException);
+      await expect(service.findById(1)).rejects.toThrow(NotFoundException);
     });
   });
 
@@ -157,14 +157,14 @@ describe("MoviesService", () => {
     it("should throw if movie not found", async () => {
       movieRepo.findOne.mockResolvedValue(null);
 
-      await expect(service.softDelete(1)).rejects.toThrow(NotFoundException);
+      await expect(service.delete(1)).rejects.toThrow(NotFoundException);
     });
 
     it("should soft delete the movie", async () => {
       movieRepo.findOne.mockResolvedValue(mockMovie);
       movieRepo.softDelete.mockResolvedValue({ affected: 1 } as any);
 
-      const result = await service.softDelete(1);
+      const result = await service.delete(1);
 
       expect(movieRepo.softDelete).toHaveBeenCalledWith(1);
       expect(result).toEqual({ message: "Movie soft-deleted" });

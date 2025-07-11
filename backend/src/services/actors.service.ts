@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Actor } from "../entities/actor.entity";
 import { Repository, ILike } from "typeorm";
-import { CreateActorDto } from "../dto/actor/create-actor.dto";
-import { UpdateActorDto } from "../dto/actor/update-actor.dto";
+import { Actor } from "../entities/actor.entity";
+import { CreateActorDto, UpdateActorDto } from "../dto/actor";
+import { IActorsService } from "./interfaces/actors.service.interface";
 
 @Injectable()
-export class ActorsService {
+export class ActorsService implements IActorsService {
   constructor(@InjectRepository(Actor) private readonly actorRepository: Repository<Actor>) {}
 
   async create(dto: CreateActorDto) {

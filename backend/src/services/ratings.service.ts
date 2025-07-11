@@ -1,19 +1,19 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 import { Rating } from "../entities/rating.entity";
 import { Movie } from "../entities/movie.entity";
-import { Repository } from "typeorm";
-import { CreateRatingDto } from "../dto/rating/create-rating.dto";
-import { UpdateRatingDto } from "../dto/rating/update-rating.dto";
+import { CreateRatingDto, UpdateRatingDto } from "../dto/rating";
+import { IRatingsService } from "./interfaces/ratings.service.interface";
 
 @Injectable()
-export class RatingsService {
+export class RatingsService implements IRatingsService {
   constructor(
     @InjectRepository(Rating) private readonly ratingRepository: Repository<Rating>,
     @InjectRepository(Movie) private readonly movieRepository: Repository<Movie>
   ) {}
 
-  async findOne(id: number) {
+  async findById(id: number) {
     const rating = await this.ratingRepository.findOne({
       where: { id },
       relations: ["movie"],

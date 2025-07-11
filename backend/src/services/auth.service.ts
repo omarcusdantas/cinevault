@@ -4,11 +4,11 @@ import * as bcrypt from "bcrypt";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "../entities/user.entity";
-import { SignupDto } from "../dto/auth/signup.dto";
-import { SigninDto } from "../dto/auth/signin.dto";
+import { SignupDto, SigninDto } from "../dto/auth";
+import { IAuthService } from "./interfaces/auth.service.interface";
 
 @Injectable()
-export class AuthService {
+export class AuthService implements IAuthService {
   constructor(
     private readonly jwtService: JwtService,
     @InjectRepository(User) private readonly userRepository: Repository<User>

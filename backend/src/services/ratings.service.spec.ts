@@ -53,7 +53,7 @@ describe("RatingsService", () => {
     it("should return rating with movie relation", async () => {
       ratingRepo.findOne.mockResolvedValue(mockRating);
 
-      const result = await service.findOne(1);
+      const result = await service.findById(1);
 
       expect(ratingRepo.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
@@ -65,7 +65,7 @@ describe("RatingsService", () => {
     it("should throw if rating not found", async () => {
       ratingRepo.findOne.mockResolvedValue(null);
 
-      await expect(service.findOne(1)).rejects.toThrow(NotFoundException);
+      await expect(service.findById(1)).rejects.toThrow(NotFoundException);
     });
   });
 

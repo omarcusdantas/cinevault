@@ -22,16 +22,21 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   UseGuards,
+  Inject,
 } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
 import { JwtOrApiGuard } from "../guards/jwt-or-api.guard";
-import { RatingsService } from "../services/ratings.service";
+import { IRatingsService } from "../services/interfaces/ratings.service.interface";
+import { RATINGS_SERVICE } from "../utils/constants";
 import { CreateRatingDto, UpdateRatingDto, ResponseRatingDto, ResponseRatingWithRelationsDto } from "../dto/rating";
 
 @ApiTags("Ratings")
 @Controller("v1/ratings")
 export class RatingsController {
-  constructor(private readonly ratingsService: RatingsService) {}
+  constructor(
+    @Inject(RATINGS_SERVICE)
+    private readonly ratingsService: IRatingsService
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -53,7 +58,7 @@ export class RatingsController {
   @ApiOkResponse({ description: "Rating found", type: ResponseRatingWithRelationsDto })
   @ApiNotFoundResponse({ description: "Rating not found" })
   findOne(@Param("id", ParseIntPipe) id: number) {
-    const rating = this.ratingsService.findOne(id);
+    const rating = this.ratingsService.findById(id);
     return plainToInstance(ResponseRatingWithRelationsDto, rating, { excludeExtraneousValues: true });
   }
 

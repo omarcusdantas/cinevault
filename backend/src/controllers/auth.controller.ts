@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from "@nestjs/common";
+import { Controller, Post, Body, HttpCode, HttpStatus, Inject } from "@nestjs/common";
 import {
   ApiTags,
   ApiOperation,
@@ -7,13 +7,17 @@ import {
   ApiUnauthorizedResponse,
   ApiOkResponse,
 } from "@nestjs/swagger";
-import { AuthService } from "../services/auth.service";
+import { IAuthService } from "../services/interfaces/auth.service.interface";
+import { AUTH_SERVICE } from "../utils/constants";
 import { SignupDto, SigninDto } from "../dto/auth";
 
 @ApiTags("Auth")
 @Controller("v1/auth")
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    @Inject(AUTH_SERVICE)
+    private readonly authService: IAuthService
+  ) {}
 
   @Post("signup")
   @HttpCode(HttpStatus.CREATED)

@@ -1,13 +1,13 @@
 import { Injectable, BadRequestException, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Repository, In, ILike } from "typeorm";
 import { Movie } from "../entities/movie.entity";
 import { Actor } from "../entities/actor.entity";
-import { Repository, In, ILike } from "typeorm";
-import { CreateMovieDto } from "../dto/movie/create-movie.dto";
-import { UpdateMovieDto } from "../dto/movie/update-movie.dto";
+import { CreateMovieDto, UpdateMovieDto } from "../dto/movie";
+import { IMoviesService } from "./interfaces/movies.service.interface";
 
 @Injectable()
-export class MoviesService {
+export class MoviesService implements IMoviesService {
   constructor(
     @InjectRepository(Movie) private readonly movieRepository: Repository<Movie>,
     @InjectRepository(Actor) private readonly actorRepository: Repository<Actor>
@@ -36,7 +36,7 @@ export class MoviesService {
     };
   }
 
-  async findOne(id: number) {
+  async findById(id: number) {
     const movie = await this.movieRepository.findOne({
       where: { id },
       relations: ["actors", "ratings"],
@@ -59,7 +59,7 @@ export class MoviesService {
     });
   }
 
-  async softDelete(id: number) {
+  async delete(id: number) {
     const movie = await this.movieRepository.findOne({ where: { id } });
     if (!movie) throw new NotFoundException("Movie not found");
 
