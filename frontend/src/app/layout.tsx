@@ -16,10 +16,10 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body className={`${inter.className} bg-background text-foreground`}>
         <Header />
-        <main className="min-h-screen bg-gray-50">{children}</main>
+        <main>{children}</main>
       </body>
     </html>
   );

@@ -11,7 +11,7 @@ const api = axios.create({
 
 export async function fetchActors(search?: string, page: number = 1) {
   const response = await api.get("/v1/actors", {
-    params: { title: search, page, limit: 6 },
+    params: { name: search, page, limit: 6 },
   });
 
   const totalPages = Math.ceil(response.data.total / 6);
