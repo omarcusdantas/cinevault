@@ -14,19 +14,21 @@ export class ActorsService {
     return this.actorRepository.save(actor);
   }
 
-  findAll(page: number, limit: number, name?: string) {
-    if (name) {
-      return this.actorRepository.find({
-        where: { name: ILike(`%${name}%`) },
-        skip: (page - 1) * limit,
-        take: limit,
-      });
-    }
+  async findAll(page: number, limit: number, name?: string) {
+    const skip = (page - 1) * limit;
 
-    return this.actorRepository.find({
-      skip: (page - 1) * limit,
+    const [items, total] = await this.actorRepository.findAndCount({
+      where: name ? { name: ILike(`%${name}%`) } : {},
+      skip,
       take: limit,
     });
+
+    return {
+      data: items,
+      total,
+      page,
+      limit,
+    };
   }
 
   async findById(id: number) {

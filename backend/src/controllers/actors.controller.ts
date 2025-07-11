@@ -31,6 +31,7 @@ import { ActorsService } from "../services/actors.service";
 import { CreateActorDto } from "../dto/actor/create-actor.dto";
 import { UpdateActorDto } from "../dto/actor/update-actor.dto";
 import { ResponseActorDto } from "../dto/actor/response-actor.dto";
+import { PaginationResponseDto } from "src/dto/pagination-response.dto";
 import { ResponseActorWithRelationsDto } from "../dto/actor/response-actor-relations.dto";
 
 @ApiTags("Actors")
@@ -60,10 +61,17 @@ export class ActorsController {
   @ApiQuery({ name: "page", required: false, type: Number })
   @ApiQuery({ name: "limit", required: false, type: Number })
   @ApiQuery({ name: "name", required: false, type: String })
-  @ApiOkResponse({ description: "List of actors", type: [ResponseActorDto] })
-  findAll(@Query("page") page = 1, @Query("limit") limit = 10, @Query("name") name?: string) {
-    const actors = this.actorsService.findAll(page, limit, name);
-    return plainToInstance(ResponseActorDto, actors, { excludeExtraneousValues: true });
+  @ApiOkResponse({ description: "List of actors", type: PaginationResponseDto<ResponseActorDto> })
+  async findAll(@Query("page") page = 1, @Query("limit") limit = 10, @Query("name") name?: string) {
+    const actors = await this.actorsService.findAll(page, limit, name);
+    const formatedActors = plainToInstance(ResponseActorDto, actors.data, { excludeExtraneousValues: true });
+
+    return {
+      data: formatedActors,
+      total: actors.total,
+      page: actors.page,
+      limit: actors.limit,
+    };
   }
 
   @Get(":id")

@@ -31,6 +31,7 @@ import { MoviesService } from "../services/movies.service";
 import { CreateMovieDto } from "../dto/movie/create-movie.dto";
 import { UpdateMovieDto } from "../dto/movie/update-movie.dto";
 import { ResponseMovieDto } from "../dto/movie/response-movie.dto";
+import { PaginationResponseDto } from "src/dto/pagination-response.dto";
 import { ResponseMovieWithRelationsDto } from "../dto/movie/response-movie-relations.dto";
 
 @ApiTags("Movies")
@@ -60,10 +61,17 @@ export class MoviesController {
   @ApiQuery({ name: "page", required: false, type: Number })
   @ApiQuery({ name: "limit", required: false, type: Number })
   @ApiQuery({ name: "title", required: false, type: String })
-  @ApiOkResponse({ description: "List of movies", type: [ResponseMovieDto] })
-  findAll(@Query("page") page = 1, @Query("limit") limit = 10, @Query("title") title?: string) {
-    const movies = this.moviesService.findAll(page, limit, title);
-    return plainToInstance(ResponseMovieDto, movies, { excludeExtraneousValues: true });
+  @ApiOkResponse({ description: "List of movies", type: PaginationResponseDto<ResponseMovieDto> })
+  async findAll(@Query("page") page = 1, @Query("limit") limit = 10, @Query("title") title?: string) {
+    const movies = await this.moviesService.findAll(page, limit, title);
+    const formatedMovies = plainToInstance(ResponseMovieDto, movies.data, { excludeExtraneousValues: true });
+
+    return {
+      data: formatedMovies,
+      total: movies.total,
+      page: movies.page,
+      limit: movies.limit,
+    };
   }
 
   @Get(":id")

@@ -9,4 +9,8 @@ export class ResponseRatingDto {
   @ApiProperty()
   @Expose()
   score: string;
+
+  @ApiProperty()
+  @Expose()
+  movieId: number;
 }

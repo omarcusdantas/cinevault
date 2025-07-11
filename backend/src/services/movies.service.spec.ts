@@ -25,7 +25,7 @@ describe("MoviesService", () => {
           useValue: {
             create: jest.fn(),
             save: jest.fn(),
-            find: jest.fn(),
+            findAndCount: jest.fn(),
             findOne: jest.fn(),
             softDelete: jest.fn(),
           },
@@ -67,26 +67,52 @@ describe("MoviesService", () => {
   });
 
   describe("findAll", () => {
+    const mockMovie: Movie = {
+      id: 1,
+      title: "Inception",
+      description: "A mind-bending thriller",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      actors: [],
+      ratings: [],
+    };
+
     it("should return all movies without title filter", async () => {
-      movieRepo.find.mockResolvedValue([mockMovie]);
+      movieRepo.findAndCount.mockResolvedValue([[mockMovie], 1]);
 
       const result = await service.findAll(1, 10);
 
-      expect(movieRepo.find).toHaveBeenCalledWith({ skip: 0, take: 10 });
-      expect(result).toEqual([mockMovie]);
+      expect(movieRepo.findAndCount).toHaveBeenCalledWith({
+        where: {},
+        skip: 0,
+        take: 10,
+      });
+
+      expect(result).toEqual({
+        data: [mockMovie],
+        total: 1,
+        page: 1,
+        limit: 10,
+      });
     });
 
     it("should return filtered movies by title", async () => {
-      movieRepo.find.mockResolvedValue([mockMovie]);
+      movieRepo.findAndCount.mockResolvedValue([[mockMovie], 1]);
 
       const result = await service.findAll(1, 10, "Inception");
 
-      expect(movieRepo.find).toHaveBeenCalledWith({
+      expect(movieRepo.findAndCount).toHaveBeenCalledWith({
         where: { title: expect.any(Object) },
         skip: 0,
         take: 10,
       });
-      expect(result).toEqual([mockMovie]);
+
+      expect(result).toEqual({
+        data: [mockMovie],
+        total: 1,
+        page: 1,
+        limit: 10,
+      });
     });
   });
 

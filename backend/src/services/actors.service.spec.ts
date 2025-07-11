@@ -28,7 +28,7 @@ describe("ActorsService", () => {
           useValue: {
             create: jest.fn(),
             save: jest.fn(),
-            find: jest.fn(),
+            findAndCount: jest.fn(),
             findOne: jest.fn(),
             softDelete: jest.fn(),
           },
@@ -57,24 +57,50 @@ describe("ActorsService", () => {
   });
 
   describe("findAll", () => {
+    const mockActor = {
+      id: 1,
+      name: "Leonardo DiCaprio",
+      movies: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
     it("should return a paginated list without search", async () => {
-      repo.find.mockResolvedValue([mockActor]);
+      repo.findAndCount.mockResolvedValue([[mockActor], 1]);
 
       const result = await service.findAll(1, 10);
-      expect(repo.find).toHaveBeenCalledWith({ skip: 0, take: 10 });
-      expect(result).toEqual([mockActor]);
+
+      expect(repo.findAndCount).toHaveBeenCalledWith({
+        where: {},
+        skip: 0,
+        take: 10,
+      });
+
+      expect(result).toEqual({
+        data: [mockActor],
+        total: 1,
+        page: 1,
+        limit: 10,
+      });
     });
 
     it("should return a paginated list with name search", async () => {
-      repo.find.mockResolvedValue([mockActor]);
+      repo.findAndCount.mockResolvedValue([[mockActor], 1]);
 
       const result = await service.findAll(1, 10, "Leo");
-      expect(repo.find).toHaveBeenCalledWith({
+
+      expect(repo.findAndCount).toHaveBeenCalledWith({
         where: { name: expect.anything() },
         skip: 0,
         take: 10,
       });
-      expect(result).toEqual([mockActor]);
+
+      expect(result).toEqual({
+        data: [mockActor],
+        total: 1,
+        page: 1,
+        limit: 10,
+      });
     });
   });
 

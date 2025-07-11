@@ -19,19 +19,21 @@ export class MoviesService {
     return this.movieRepository.save(movie);
   }
 
-  findAll(page: number, limit: number, title?: string) {
-    if (title) {
-      return this.movieRepository.find({
-        where: { title: ILike(`%${title}%`) },
-        skip: (page - 1) * limit,
-        take: limit,
-      });
-    }
+  async findAll(page: number, limit: number, title?: string) {
+    const skip = (page - 1) * limit;
 
-    return this.movieRepository.find({
-      skip: (page - 1) * limit,
+    const [items, total] = await this.movieRepository.findAndCount({
+      where: title ? { title: ILike(`%${title}%`) } : {},
+      skip,
       take: limit,
     });
+
+    return {
+      data: items,
+      total,
+      page,
+      limit,
+    };
   }
 
   async findOne(id: number) {

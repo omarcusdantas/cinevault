@@ -57,7 +57,7 @@ export class RatingsController {
   @ApiNotFoundResponse({ description: "Rating not found" })
   findOne(@Param("id", ParseIntPipe) id: number) {
     const rating = this.ratingsService.findOne(id);
-    return plainToInstance(ResponseRatingDto, rating, { excludeExtraneousValues: true });
+    return plainToInstance(ResponseRatingWithRelationsDto, rating, { excludeExtraneousValues: true });
   }
 
   @Put(":id")
