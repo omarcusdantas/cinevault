@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { fetchMovies } from "@/lib/api/moviesApi";
-import { MovieList } from "@/shared/components/MovieList";
+import { MovieList } from "@/modules/movies/components/MovieList";
 import { Pagination } from "@/shared/components/Pagination";
 import { SearchForm } from "@/shared/components/SearchForm";
 
