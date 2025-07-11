@@ -28,11 +28,8 @@ import {
 import { plainToInstance } from "class-transformer";
 import { JwtOrApiGuard } from "../guards/jwt-or-api.guard";
 import { ActorsService } from "../services/actors.service";
-import { CreateActorDto } from "../dto/actor/create-actor.dto";
-import { UpdateActorDto } from "../dto/actor/update-actor.dto";
-import { ResponseActorDto } from "../dto/actor/response-actor.dto";
-import { PaginationResponseDto } from "src/dto/pagination-response.dto";
-import { ResponseActorWithRelationsDto } from "../dto/actor/response-actor-relations.dto";
+import { CreateActorDto, UpdateActorDto, ResponseActorDto, ResponseActorWithRelationsDto } from "../dto/actor";
+import { ResponsePaginatedDto, PaginationQueryDto } from "../dto/pagination";
 
 @ApiTags("Actors")
 @Controller("v1/actors")
@@ -61,9 +58,9 @@ export class ActorsController {
   @ApiQuery({ name: "page", required: false, type: Number })
   @ApiQuery({ name: "limit", required: false, type: Number })
   @ApiQuery({ name: "name", required: false, type: String })
-  @ApiOkResponse({ description: "List of actors", type: PaginationResponseDto<ResponseActorDto> })
-  async findAll(@Query("page") page = 1, @Query("limit") limit = 10, @Query("name") name?: string) {
-    const actors = await this.actorsService.findAll(page, limit, name);
+  @ApiOkResponse({ description: "List of actors", type: ResponsePaginatedDto<ResponseActorDto> })
+  async findAll(@Query() pagination: PaginationQueryDto, @Query("name") name?: string) {
+    const actors = await this.actorsService.findAll(pagination.page ?? 1, pagination.limit ?? 10, name);
     const formatedActors = plainToInstance(ResponseActorDto, actors.data, { excludeExtraneousValues: true });
 
     return {

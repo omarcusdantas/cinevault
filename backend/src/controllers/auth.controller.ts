@@ -8,8 +8,7 @@ import {
   ApiOkResponse,
 } from "@nestjs/swagger";
 import { AuthService } from "../services/auth.service";
-import { SignupDto } from "../dto/auth/signup.dto";
-import { SigninDto } from "../dto/auth/signin.dto";
+import { SignupDto, SigninDto } from "../dto/auth";
 
 @ApiTags("Auth")
 @Controller("v1/auth")

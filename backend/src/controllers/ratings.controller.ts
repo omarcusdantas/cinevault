@@ -26,10 +26,7 @@ import {
 import { plainToInstance } from "class-transformer";
 import { JwtOrApiGuard } from "../guards/jwt-or-api.guard";
 import { RatingsService } from "../services/ratings.service";
-import { CreateRatingDto } from "../dto/rating/create-rating.dto";
-import { UpdateRatingDto } from "../dto/rating/update-rating.dto";
-import { ResponseRatingDto } from "../dto/rating/response-rating.dto";
-import { ResponseRatingWithRelationsDto } from "../dto/rating/response-rating-relations.dto";
+import { CreateRatingDto, UpdateRatingDto, ResponseRatingDto, ResponseRatingWithRelationsDto } from "../dto/rating";
 
 @ApiTags("Ratings")
 @Controller("v1/ratings")

@@ -5,7 +5,7 @@ export class CreateRatingDto {
   @ApiProperty()
   @IsInt()
   @Min(1)
-  @Max(5)
+  @Max(10)
   score: number;
 
   @ApiProperty()

@@ -28,11 +28,8 @@ import {
 import { plainToInstance } from "class-transformer";
 import { JwtOrApiGuard } from "../guards/jwt-or-api.guard";
 import { MoviesService } from "../services/movies.service";
-import { CreateMovieDto } from "../dto/movie/create-movie.dto";
-import { UpdateMovieDto } from "../dto/movie/update-movie.dto";
-import { ResponseMovieDto } from "../dto/movie/response-movie.dto";
-import { PaginationResponseDto } from "src/dto/pagination-response.dto";
-import { ResponseMovieWithRelationsDto } from "../dto/movie/response-movie-relations.dto";
+import { CreateMovieDto, UpdateMovieDto, ResponseMovieDto, ResponseMovieWithRelationsDto } from "../dto/movie";
+import { ResponsePaginatedDto, PaginationQueryDto } from "../dto/pagination";
 
 @ApiTags("Movies")
 @Controller("v1/movies")
@@ -61,9 +58,9 @@ export class MoviesController {
   @ApiQuery({ name: "page", required: false, type: Number })
   @ApiQuery({ name: "limit", required: false, type: Number })
   @ApiQuery({ name: "title", required: false, type: String })
-  @ApiOkResponse({ description: "List of movies", type: PaginationResponseDto<ResponseMovieDto> })
-  async findAll(@Query("page") page = 1, @Query("limit") limit = 10, @Query("title") title?: string) {
-    const movies = await this.moviesService.findAll(page, limit, title);
+  @ApiOkResponse({ description: "List of movies", type: ResponsePaginatedDto<ResponseMovieDto> })
+  async findAll(@Query() pagination: PaginationQueryDto, @Query("title") title?: string) {
+    const movies = await this.moviesService.findAll(pagination.page ?? 1, pagination.limit ?? 10, title);
     const formatedMovies = plainToInstance(ResponseMovieDto, movies.data, { excludeExtraneousValues: true });
 
     return {
