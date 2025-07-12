@@ -1,10 +1,9 @@
 {
-  "name": "backend",
+  "name": "cinevault-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "description": "API for CineVault",
+  "author": "Marcus Dantas",
+  "private": false,
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -89,9 +88,8 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": "^22.2.0"
+    "node": "^22.0.0"
   },
-  "packageManager": "pnpm@10.6.1",
   "simple-git-hooks": {
     "pre-commit": "pnpm precommit"
   }

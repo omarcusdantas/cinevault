@@ -1,7 +1,8 @@
 {
-  "name": "frontend",
+  "name": "cinevault",
   "version": "0.1.0",
   "private": false,
+  "author": "Marcus Dantas",
   "scripts": {
     "dev": "next dev --turbopack --port 5000",
     "build": "next build",
@@ -49,10 +50,8 @@
     "vitest": "^3.2.4"
   },
   "engines": {
-    "node": "^22.2.0",
-    "pnpm": "10.6.1"
+    "node": "^22.0.0"
   },
-  "packageManager": "pnpm@10.6.1",
   "simple-git-hooks": {
     "pre-commit": "pnpm precommit"
   }
