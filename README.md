@@ -85,7 +85,7 @@ pnpm run dev
 * You can now access `http://localhost:5000/` and navigate the page. Check the [Navigation section](#navigation) for details.
 
 ## :whale: Docker support
-* To run the application with Docker, first set a .env file using the [.env.example](./backend/.env.example) as model. The API_KEY is used to override the JWT token in the create, put and delete endpoints.
+* To run the application with Docker, first set a .env file using the [.env.example](./.env.example) as model. The API_KEY is used to override the JWT token in the create, put and delete endpoints.
 * In the [frontend directory](./frontend), open [next.config.ts](./frontend/next.config.ts) and uncomment line 5:
 ```
 output: "standalone",
