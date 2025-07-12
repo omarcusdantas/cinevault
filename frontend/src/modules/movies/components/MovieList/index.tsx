@@ -12,7 +12,7 @@ export function MovieList({ movies }: MovieListProps) {
   if (movies.length === 0) {
     return (
       <div className="py-12 text-center">
-        <p className="text-gray-500">No movies found</p>
+        <p className="text-secondary-foreground">No movies found</p>
       </div>
     );
   }
@@ -28,9 +28,9 @@ export function MovieList({ movies }: MovieListProps) {
         >
           <Link
             href={`/movies/${movie.id}`}
-            className="block rounded-lg border bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
+            className="block rounded-lg border bg-secondary p-4 shadow-sm transition-shadow hover:shadow-md"
           >
-            <h3 className="text-lg font-medium text-gray-900">{movie.title}</h3>
+            <h3 className="text-lg font-medium text-secondary-foreground">{movie.title}</h3>
           </Link>
         </motion.div>
       ))}

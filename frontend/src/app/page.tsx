@@ -5,8 +5,8 @@ export default function HomePage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
       <div className="text-center">
-        <h2 className="mb-4 text-4xl font-bold text-gray-900">Welcome to CineVault</h2>
-        <p className="mb-8 text-xl text-gray-600">Discover and explore your favorite movies and actors</p>
+        <h2 className="mb-4 text-4xl font-bold text-foreground">Welcome to CineVault</h2>
+        <p className="mb-8 text-xl text-secondary-foreground">Discover and explore your favorite movies and actors</p>
         <div className="flex justify-center space-x-4">
           <Link href="/movies">
             <Button>Browse Movies</Button>
