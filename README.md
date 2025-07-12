@@ -3,18 +3,6 @@ A web application built with Next.js, TailwindCSS, for users to manage a list of
 
 ![CineVault Demo](./docs/cinevault.gif)
 
-## Table of Contents
-- [Description](#description)
-- [Tech](#tech)
-- [Usage](#usage)
-- [Docker support](#docker-support)
-- [Routes](#routes)
-- [Navigation](#navigation)
-- [Next steps](#next-steps)
-- [Contributing](#contributing)
-- [License](#license)
-- [Credits](#credits)
-
 ## :speech_balloon: Description
 This project contains all the files for a web application called CineVault.
 
@@ -52,7 +40,7 @@ Docker
 ```
 
 * Clone or download the repository.
-* You can follow the steps to run the project using Node.js, or you can check how to use Docker [here](#docker).
+* You can follow the steps to run the project using Node.js, or you can check how to use Docker on the Docker Support section.
 
 #### Backend
 
@@ -71,7 +59,7 @@ pnpm run seed
 pnpm install
 pnpm run start
 ```
-* You can now make the requests. Check the [Routes section](#routes) for details.
+* You can now make the requests. Check the Routes section for details.
 
 #### Frontend
 * Access the [frontend directory](./frontend).
@@ -82,7 +70,7 @@ pnpm run start
 pnpm install
 pnpm run dev
 ```
-* You can now access `http://localhost:5000/` and navigate the page. Check the [Navigation section](#navigation) for details.
+* You can now access `http://localhost:5000/` and navigate the page. Check the Navigation section for details.
 
 ## :whale: Docker support
 * To run the application with Docker, first set a .env file using the [.env.example](./.env.example) as model. The API_KEY is used to override the JWT token in the create, put and delete endpoints.
@@ -92,8 +80,8 @@ output: "standalone",
 ```
 * Open a terminal in the root and run `docker compose up` command.
 * Wait for the build and all projects to start, last one is the backend.
-* You can access the backend in ```http://localhost:4000/swagger```. Check the [Routes section](#routes) for details.
-* You can access the frontend in ```http://localhost:5000/```. Check the [Navigation section](#navigation) for details.
+* You can access the backend in ```http://localhost:4000/swagger```. Check the Routes section for details.
+* You can access the frontend in ```http://localhost:3000/```. Check the Navigation section for details.
 
 ## :world_map: Routes
 All the routes are documented on [SwaggerHub](https://app.swaggerhub.com/apis-docs/MARVINSD/CineVault/1.0). Swagger is also available in the project, you can use it to make the requests accessing `http://localhost:port/swagger`. 
