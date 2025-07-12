@@ -86,7 +86,7 @@ output: "standalone",
 ## :world_map: Routes
 All the routes are documented on [SwaggerHub](https://app.swaggerhub.com/apis-docs/MARVINSD/CineVault/1.0). Swagger is also available in the project, you can use it to make the requests accessing `http://localhost:port/swagger`. 
 
-Make sure to have the API_KEY or the jwt token (acquired with ```auth/signup``` and ```auth/signin```) in your request as a [bearer authentication](https://swagger.io/docs/specification/v3_0/authentication/bearer-authentication/). You can also configure it in swagger using the lock icon in the right.
+For create, put and delete endpoints, make sure to have the API_KEY or the jwt token (acquired with ```auth/signup``` and ```auth/signin```) in your request as a [bearer authentication](https://swagger.io/docs/specification/v3_0/authentication/bearer-authentication/). You can also configure it in swagger using the lock icon in the right.
 
 ## :world_map: Navigation  
 * On the home page, you can click one of the buttons or use the navbar to navigate to the Movies or Actors page.  
