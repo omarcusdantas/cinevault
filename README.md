@@ -7,6 +7,7 @@ A web application built with Next.js, TailwindCSS, for users to manage a list of
 - [Description](#description)
 - [Tech](#tech)
 - [Usage](#usage)
+- [Docker support](#docker-support)
 - [Routes](#routes)
 - [Navigation](#navigation)
 - [Next steps](#next-steps)
@@ -44,9 +45,14 @@ To run the project locally you need:
 Node.js >= 22
 pnpm
 A running Postgres database
+
+OR
+
+Docker
 ```
-### Steps
+
 * Clone or download the repository.
+* You can follow the steps to run the project using Node.js, or you can check how to use Docker [here](#docker).
 
 #### Backend
 
@@ -68,7 +74,7 @@ pnpm run start
 * You can now make the requests. Check the [Routes section](#routes) for details.
 
 #### Frontend
-* Access the [frontend directory](./frontend)
+* Access the [frontend directory](./frontend).
 * Set a .env file using the [.env.example](./frontend/.env.example) as model.
 * Open a terminal in the [backend directory](./backend).
 * Run the following commands:
@@ -77,6 +83,17 @@ pnpm install
 pnpm run dev
 ```
 * You can now access `http://localhost:5000/` and navigate the page. Check the [Navigation section](#navigation) for details.
+
+## :whale: Docker support
+* To run the application with Docker, first set a .env file using the [.env.example](./backend/.env.example) as model. The API_KEY is used to override the JWT token in the create, put and delete endpoints.
+* In the [frontend directory](./frontend), open [next.config.ts](./frontend/next.config.ts) and uncomment line 5:
+```
+output: "standalone",
+```
+* Open a terminal in the root and run `docker compose up` command.
+* Wait for the build and all projects to start, last one is the backend.
+* You can access the backend in ```http://localhost:4000/swagger```. Check the [Routes section](#routes) for details.
+* You can access the frontend in ```http://localhost:5000/```. Check the [Navigation section](#navigation) for details.
 
 ## :world_map: Routes
 All the routes are documented on [SwaggerHub](https://app.swaggerhub.com/apis-docs/MARVINSD/CineVault/1.0). Swagger is also available in the project, you can use it to make the requests accessing `http://localhost:port/swagger`. 
@@ -92,7 +109,6 @@ Make sure to have the API_KEY or the jwt token (acquired with ```auth/signup``` 
 
 ## :pushpin: Next steps
 ### Backend
-* Implement Docker support
 * Implement query dto to validate user input
 * Refactor TypeORM into a dedicated repository layer to decouple it from the service layer
 * Refactor error treatment away from the service layer
@@ -103,7 +119,6 @@ Make sure to have the API_KEY or the jwt token (acquired with ```auth/signup``` 
 * Improve tests and coverage
 
 ### Frontend
-* Implement Docker support
 * Implement signin/signup user flow
 * Implement user flow to create/update/delete actors, movies and ratings
 * Improve design system
