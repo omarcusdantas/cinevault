@@ -10,7 +10,6 @@ interface MovieDetailsProps {
 }
 
 export function MovieDetails({ movie }: MovieDetailsProps) {
-  console.log(movie);
   const averageRating =
     movie.ratings.length > 0
       ? movie.ratings.reduce((total, rating) => total + rating.score, 0) / movie.ratings.length

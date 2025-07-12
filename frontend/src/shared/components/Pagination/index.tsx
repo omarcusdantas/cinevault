@@ -36,6 +36,7 @@ export function Pagination({ currentPage, totalPages, search }: PaginationProps)
       <button
         onClick={() => handlePageChange(currentPageNumber - 1)}
         disabled={currentPageNumber <= 1}
+        aria-label="Go to previous page"
         className={`rounded-md border p-2 transition-colors ${
           currentPageNumber > 1
             ? "border-gray-300 text-gray-700 hover:bg-gray-50"
@@ -52,6 +53,7 @@ export function Pagination({ currentPage, totalPages, search }: PaginationProps)
       <button
         onClick={() => handlePageChange(currentPageNumber + 1)}
         disabled={currentPageNumber >= totalPages}
+        aria-label="Go to next page"
         className={`rounded-md border p-2 transition-colors ${
           currentPageNumber < totalPages
             ? "border-gray-300 text-gray-700 hover:bg-gray-50"

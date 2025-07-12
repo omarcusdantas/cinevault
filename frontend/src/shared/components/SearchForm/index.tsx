@@ -36,7 +36,7 @@ export function SearchForm({ placeholder }: SearchFormProps) {
 
     const currentPath = window.location.pathname;
 
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
     router.push(`${currentPath}?${params.toString()}`);
   };
 
